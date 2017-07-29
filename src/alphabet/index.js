@@ -65,7 +65,6 @@ function update(letters) {
             .attr('opacity', 1)
 
       _runesEnter
-          .merge(_runes)
           .attr('transform', (d) => `translate(${(index*kerning) + pad},${letterHeight + pad})`)
           .transition()
           .delay((d, i) => {return ((letterDelay) / letter.runes.length) * i})
@@ -80,28 +79,42 @@ function update(letters) {
 
     _runes.exit().transition().attr('opacity', 0).remove()
 
-    // let _beams = _this.selectAll(`.beam`).data(letter.beams);
-    //
-    // let _beamsEnter = _beams
-    //   .enter()
-    //   .append('g')
-    //   .attr('class', `beam`)
-    //   .append('path')
-    //   .attr('d', connectDots(letter.beams, index))
-    //   .style('strike-width', 2)
-    //   .style("stroke", (d, i) => `rgba(${255},${255},${255},0.8)`)
-    //   .style("fill", "none")
-    //   .style('opacity', 0)
-    //
-    // _beamsEnter
-    //   .transition()
-    //   .delay((d, i) => {
-    //     return letterDelay + (i * beamDelay)
-    //   })
-    //   .duration(beamDelay)
-    //   .style('opacity', 1)
-    //
-    // _beams.exit().remove()
+
+
+    let _beams = _this.selectAll(`.beam`).data(letter.beams);
+
+    _beams.select('path')
+      .style('opacity', 0)
+      .attr('d', connectDots(letter.beams, index))
+      .transition()
+
+      .delay((d, i) => {
+        return letterDelay + (i * beamDelay)
+      })
+      .duration(beamDelay)
+      .style('opacity', 1)
+
+    let _beamsEnter = _beams
+      .enter()
+        .append('g')
+        .attr('class', `beam`)
+      .append('path')
+        .attr('d', connectDots(letter.beams, index))
+        .style('strike-width', 2)
+        .style("stroke", (d, i) => `rgba(${255},${255},${255},0.8)`)
+        .style("fill", "none")
+        .style('opacity', 0)
+
+    _beamsEnter
+      .merge(_beams)
+      .transition()
+      .delay((d, i) => {
+        return letterDelay + (i * beamDelay)
+      })
+      .duration(beamDelay)
+      .style('opacity', 1)
+
+    _beams.exit().remove()
 
   }
 
