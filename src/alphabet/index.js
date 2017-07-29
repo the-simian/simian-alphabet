@@ -1,145 +1,19 @@
 
 import * as d3 from "d3";
 
+import {
+  kerning,
+  unit,
+  letterHeight
+} from './simianfont/lettering'
+
+import simianfont from './simianfont'
+
 const width = 960;
 const height = 500;
-
-const unit = 15;
-
-const letterWidth = unit * 5;
-const letterHeight = unit * 10;
-const halfWayWidth = letterWidth / 2
 const pad = 10;
-
 const letterDelay = 1250;
 const beamDelay = 250;
-
-const S = (() => {
-  let _runes = [{
-    x: halfWayWidth,
-    y: 0
-  }, {
-    x: 0 + unit,
-    y: (letterHeight / 2) - unit
-  }, {
-    x: letterWidth - unit,
-    y: (letterHeight / 2) + unit
-  }, {
-    x: letterWidth * 0.5,
-    y: letterHeight
-  }];
-  return {
-    beams: [
-      [_runes[0], _runes[1]],
-      [_runes[2], _runes[3]]
-    ],
-    runes: _runes
-  };
-})();
-
-const i = (() => {
-  let _runes = [{
-    x: halfWayWidth,
-    y: (letterHeight / 2) - unit
-  }, {
-    x: halfWayWidth,
-    y: (letterHeight / 2) + unit
-  }, {
-    x: halfWayWidth,
-    y: letterHeight
-  }]
-  return {
-    beams: [
-      [_runes[1], _runes[2]]
-    ],
-    runes: _runes
-  }
-})();
-
-const m = (() => {
-
-  let r = [{
-    x: 0,
-    y: letterHeight
-  }, {
-    x: 0,
-    y: (letterHeight / 2) + unit
-  }, {
-    x: halfWayWidth,
-    y: letterHeight
-  }, {
-    x: halfWayWidth,
-    y: (letterHeight / 2) + unit
-  }, {
-    x: letterWidth,
-    y: letterHeight
-  }]
-
-  return {
-    beams: [
-      [r[0], r[1]],
-      [r[1], r[2]],
-      [r[3], r[4]]
-    ],
-    runes: r
-  }
-})();
-
-
-const a = (() => {
-
-  let r = [{
-    x: 0,
-    y: letterHeight
-  }, {
-    x: 0,
-    y: (letterHeight / 2) + unit
-  }, {
-    x: halfWayWidth,
-    y: letterHeight
-  }]
-
-  return {
-    beams: [
-      //   [r[0], r[1]],
-      [r[1], r[2]],
-    ],
-    runes: r
-  }
-})();
-
-const n = (() => {
-
-  let r = [{
-    x: 0,
-    y: letterHeight
-  }, {
-    x: 0,
-    y: (letterHeight / 2) + unit
-  }, {
-    x: halfWayWidth,
-    y: letterHeight
-  }, {
-    x: halfWayWidth,
-    y: (letterHeight / 2) + unit
-  }]
-
-  return {
-    beams: [
-      [r[0], r[1]],
-      [r[1], r[2]],
-    ],
-    runes: r
-  }
-})();
-
-const simianfont = {
-  S,
-  i,
-  m,
-  a,
-  n
-}
 
 let svg;
 
@@ -151,7 +25,7 @@ function update(letters) {
 
   console.log(letters)
 
-  let kerning = letterWidth * 1.1;
+
 
   function connectDots(d, index) {
     return d3
