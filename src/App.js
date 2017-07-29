@@ -9,7 +9,7 @@ import {alphabetize} from './alphabet';
 class App extends Component {
 
   state={
-    message:'ani'
+    message:'ssssss'
   }
 
   componentDidMount(){
@@ -18,16 +18,22 @@ class App extends Component {
 
     setTimeout(() => {
       this.setState({
-        message: 'SSna'
+        message: 'i'
       })
-    },3500)
+    },2500)
 
 
     setTimeout(() => {
       this.setState({
-        message: 'i'
+        message: 'SCrmSi'
       })
-    },6000)
+    },5000)
+
+    setTimeout(() => {
+      this.setState({
+        message: 'SimianCraft'
+      })
+    },7500)
 
   }
 

@@ -39,7 +39,7 @@ function update(letters) {
     .append('g')
     .attr('class', 'letter');
 
-  _letters.exit().remove()
+  _letters.exit().attr('opacity', 1).transition().duration(750).attr('opacity', 0).remove()
 
 
   function letterToShape(letter, index){
@@ -77,7 +77,7 @@ function update(letters) {
         .duration((letterDelay) / letter.runes.length)
         .attr('transform', (d) => `translate(${d.x + (index*kerning) + pad},${d.y + pad})`)
 
-    _runes.exit().transition().attr('opacity', 0).remove()
+    _runes.exit().attr('opacity', 1).transition().duration(750).attr('opacity', 0).remove()
 
 
 
