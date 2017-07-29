@@ -5,43 +5,49 @@ import {
   unit
 } from './lettering'
 
+const b = (() => {
 
-const i = (() => {
-  let _runes = [{
-    x: halfWayWidth,
-    y: (letterHeight / 2) - unit
+  let r = [{
+    x: 0,
+    y: letterHeight
   }, {
-    x: halfWayWidth,
+    x: 0,
     y: (letterHeight / 2) + unit
   }, {
     x: halfWayWidth,
     y: letterHeight
   }]
+
   return {
     beams: [
-      [_runes[1], _runes[2]]
+      //   [r[0], r[1]],
+      [r[1], r[2]],
     ],
-    runes: _runes
+    runes: r
   }
 })();
 
-const I = (() => {
-  let _runes = [{
-    x: halfWayWidth,
-    y: (letterHeight / 2) - unit
+const B = (() => {
+
+  let r = [{
+    x: 0,
+    y: letterHeight
   }, {
-    x: halfWayWidth,
+    x: 0,
     y: (letterHeight / 2) + unit
   }, {
     x: halfWayWidth,
     y: letterHeight
   }]
+
   return {
     beams: [
-      [_runes[1], _runes[2]]
+      //   [r[0], r[1]],
+      [r[1], r[2]],
     ],
-    runes: _runes
+    runes: r
   }
 })();
 
-export {I, i}
+
+export {B, b}

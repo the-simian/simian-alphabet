@@ -1,4 +1,3 @@
-
 import * as d3 from "d3";
 
 import {
@@ -21,12 +20,6 @@ function update(letters) {
 
   svg = svg || d3.select('svg')
 
-  console.log(svg)
-
-  console.log(letters)
-
-
-
   function connectDots(d, index) {
     return d3
       .line()
@@ -38,36 +31,26 @@ function update(letters) {
       })
   }
 
-  letters.map((letter, index) => {
-    let _beams = svg.selectAll(`.beam-${index}`).data(letter.beams)
-    let _beamsEnter =
-      _beams
-      .enter()
-      .append('g')
-      .attr('class', `beam-${index}`)
-      .append('path')
-      .attr('d', connectDots(letter.beams, index))
-      .style('strike-width', 2)
-      .style("stroke", (d, i) => `rgba(${255},${255},${255},0.8)`)
-      .style("fill", "none")
-      .style('opacity', 0)
+  let _letters = svg.selectAll('.letter').data(letters)
 
-    _beamsEnter
-      .transition()
-      .delay((d, i) => {
-        return letterDelay + (i * beamDelay)
-      })
-      .duration(beamDelay)
-      .style('opacity', 1)
 
-    _beams.exit().remove()
+  let _letterEnter = _letters
+    .enter()
+    .append('g')
+    .attr('class', 'letter');
 
-    let _runes = svg.selectAll(`.rune-${index}`).data(letter.runes)
+  _letters.exit().remove()
+
+
+  function letterToShape(letter, index){
+
+    let _this = d3.select(this);
+    let _runes = _this.selectAll('.rune').data(letter.runes)
 
     let _runesEnter = _runes
       .enter()
       .append('g')
-      .attr('class', `rune-${index}`)
+      .attr('class', `rune`)
       .attr('transform', (d) => `translate(${(index*kerning) + pad},${letterHeight + pad})`)
 
     _runesEnter
@@ -89,33 +72,49 @@ function update(letters) {
       .duration((letterDelay) / letter.runes.length)
       .attr('transform', (d) => `translate(${d.x + (index*kerning) + pad},${d.y + pad})`)
 
-    _runes.exit().remove();
-  })
+    let _runesExit = _runes.exit()
+
+    _runesExit.transition().attr('opacity', 0).remove()
+
+    let _beams = _this.selectAll(`.beam`).data(letter.beams);
+
+    let _beamsEnter = _beams
+      .enter()
+      .append('g')
+      .attr('class', `beam`)
+      .append('path')
+      .attr('d', connectDots(letter.beams, index))
+      .style('strike-width', 2)
+      .style("stroke", (d, i) => `rgba(${255},${255},${255},0.8)`)
+      .style("fill", "none")
+      .style('opacity', 0)
+
+    _beamsEnter
+      .transition()
+      .delay((d, i) => {
+        return letterDelay + (i * beamDelay)
+      })
+      .duration(beamDelay)
+      .style('opacity', 1)
+
+    _beams.exit().remove()
+
+  }
+
+  _letterEnter.each(letterToShape);
 
 }
 
-
-function alphabetize(word){
-
-  console.log(word)
-
+function alphabetize(word) {
   let _name = word.split('').map((char) => {
-    return simianfont[char]
+    return simianfont[char];
   });
-
-  let makeLetters = [];
-
-  function drawChars(elapsed){
-    if (_name.length) {
-      makeLetters.push(_name.shift())
-      update(makeLetters)
-    }
-  }
-
-  d3.interval(drawChars, letterDelay)
+  update(_name);
 }
 
 
 export default alphabetize;
 
-export {alphabetize}
+export {
+  alphabetize
+}

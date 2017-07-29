@@ -27,5 +27,30 @@ const a = (() => {
   }
 })();
 
+const A = (() => {
 
-export {a}
+  let r = [{
+    x: 0,
+    y: letterHeight
+  }, {
+    x: 0,
+    y: 0
+  }, {
+    x: letterWidth - unit,
+    y: letterHeight
+  }, {
+    x: halfWayWidth - unit,
+    y: (letterHeight / 2) + unit
+  }]
+
+  return {
+    beams: [
+      //   [r[0], r[1]],
+      [r[1], r[2]],
+    ],
+    runes: r
+  }
+})();
+
+
+export {a, A}
