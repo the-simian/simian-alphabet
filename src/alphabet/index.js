@@ -45,36 +45,51 @@ function update(letters) {
   function letterToShape(letter, index){
 
     let _this = d3.select(this);
+
+
     let _runes = _this.selectAll('.rune').data(letter.runes)
+
+
+    _runes
+        .attr('fill', (d, i) => `rgba(${10},${255},${255},0.8)`)
+
+    _runes
+        .enter()
+        .append('circle')
+        .attr('class', `rune`)
+
+
+    _runes.attr('class', `rune`)
 
     let _runesEnter = _runes
       .enter()
-      .append('g')
-      .attr('class', `rune`)
-      .attr('transform', (d) => `translate(${(index*kerning) + pad},${letterHeight + pad})`)
+        .append('g')
+          .attr('class', `rune`)
 
-    _runesEnter
-      .append('circle')
-      .attr('r', `${unit/4}`)
-      .attr('fill', (d, i) => `rgba(${i * 10},${255},${255},0.8)`)
-      .attr('opacity', 0)
-      .transition()
-      .delay((d, i) => {
-        return ((letterDelay / 2) / letter.runes.length) * i
-      })
-      .attr('opacity', 1)
+      _runesEnter
+          .append('circle')
+            .attr('r', `${unit/4}`)
+            .attr('fill', (d, i) => `rgba(${10},${255},${255},0.8)`)
+            .attr('opacity', 0)
+            .transition()
+            .delay((d, i) => {return ((letterDelay / 2) / letter.runes.length) * i})
+            .attr('opacity', 1)
 
-    _runesEnter
-      .transition()
-      .delay((d, i) => {
-        return ((letterDelay) / letter.runes.length) * i
-      })
-      .duration((letterDelay) / letter.runes.length)
-      .attr('transform', (d) => `translate(${d.x + (index*kerning) + pad},${d.y + pad})`)
+      _runesEnter
+          .merge(_runes)
+          .attr('transform', (d) => `translate(${(index*kerning) + pad},${letterHeight + pad})`)
+          .transition()
+          .delay((d, i) => {return ((letterDelay) / letter.runes.length) * i})
+          .duration((letterDelay) / letter.runes.length)
+          .attr('transform', (d) => `translate(${d.x + (index*kerning) + pad},${d.y + pad})`)
 
-    let _runesExit = _runes.exit()
+      _runes
+        .transition()
+        .delay((d, i) => {return ((letterDelay) / letter.runes.length) * i})
+        .duration((letterDelay) / letter.runes.length)
+        .attr('transform', (d) => `translate(${d.x + (index*kerning) + pad},${d.y + pad})`)
 
-    _runesExit.transition().attr('opacity', 0).remove()
+    _runes.exit().transition().attr('opacity', 0).remove()
 
     let _beams = _this.selectAll(`.beam`).data(letter.beams);
 
